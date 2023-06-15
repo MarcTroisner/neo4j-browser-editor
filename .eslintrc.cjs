@@ -13,6 +13,7 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    'no-underscore-dangle': 'off',
     'prettier/prettier': 'error',
     'import/prefer-default-export': 'off',
   },
