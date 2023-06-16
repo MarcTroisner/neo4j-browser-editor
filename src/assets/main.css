@@ -6,7 +6,7 @@
 
 @layer base {
   * {
-    @apply outline-none border-none;
+    @apply border-none outline-none;
   }
 
   body {

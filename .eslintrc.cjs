@@ -13,8 +13,9 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    'import/prefer-default-export': 'off',
+    'import/no-extraneous-dependencies': 'off',
     'no-underscore-dangle': 'off',
     'prettier/prettier': 'error',
-    'import/prefer-default-export': 'off',
   },
 };
