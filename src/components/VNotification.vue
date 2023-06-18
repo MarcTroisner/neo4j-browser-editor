@@ -119,7 +119,6 @@ onMounted(() => {
 
 .v-notification-enter-from,
 .v-notification-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
+  @apply translate-x-5 opacity-0;
 }
 </style>
