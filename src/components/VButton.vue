@@ -58,7 +58,7 @@ import { OhVueIcon } from 'oh-vue-icons';
 
 export interface IButtonProps {
   color?: 'base' | 'primary' | 'danger' | 'success' | 'warning' | 'info';
-  variant?: 'base' | 'outline' | 'ghost' | 'plain';
+  variant?: 'base' | 'outline' | 'ghost' | 'plain' | 'text';
   type?: 'submit' | 'reset' | 'button';
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
   prependIcon?: string;
@@ -85,7 +85,7 @@ const props = withDefaults(defineProps<IButtonProps>(), {
 });
 
 const iconSize = computed(() => {
-  const scale = {
+  const sizes = {
     xs: 0.8,
     sm: 0.9,
     base: 1,
@@ -93,7 +93,7 @@ const iconSize = computed(() => {
     xl: 1.2,
   };
 
-  return scale[props.size];
+  return sizes[props.size];
 });
 const buttonSize = computed(() => {
   const buttonType = props.icon === undefined ? 'base' : 'icon';
@@ -278,5 +278,36 @@ const buttonVariant = computed(() => `v-button--${props.color}--${props.variant}
 .v-button--info--plain {
   @apply border-none bg-none p-0 text-info-500 hover:text-info-600 focus-visible:text-info-600
   dark:text-info-700 dark:hover:text-info-600 dark:focus-visible:text-info-600;
+}
+
+/* Text variants */
+.v-button--base--text {
+  @apply border-none bg-none p-0 text-black
+  dark:text-white;
+}
+
+.v-button--primary--text {
+  @apply border-none bg-none p-0 text-primary-600
+  dark:text-primary-600;
+}
+
+.v-button--danger--text {
+  @apply border-none bg-none p-0 text-danger-600
+  dark:text-danger-600;
+}
+
+.v-button--success--text {
+  @apply border-none bg-none p-0 text-success-600
+  dark:text-success-600;
+}
+
+.v-button--warning--text {
+  @apply border-none bg-none p-0 text-warning-500
+  dark:text-warning-600;
+}
+
+.v-button--info--text {
+  @apply border-none bg-none p-0 text-info-600
+  dark:text-info-600;
 }
 </style>
