@@ -32,7 +32,7 @@
           <h4 class="pr-6 font-medium text-black dark:text-white">
             {{ props.title }}
           </h4>
-          <div class="mt-1 text-black dark:text-white">
+          <div class="mt-1 text-base-800 dark:text-base-100">
             <slot name="default" />
           </div>
           <div class="mt-4 flex space-x-4">
