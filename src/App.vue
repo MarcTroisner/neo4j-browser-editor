@@ -1,42 +1,38 @@
 <template>
   <div class="flex h-screen w-screen flex-col gap-4 bg-neutral-50 p-10 dark:bg-neutral-900">
-    <VButton
-      text="Toggle notification"
-      @click="showNotification = !showNotification"
-    />
-    <VComponent
-      v-model="showNotification"
-      intent="info"
-      title="Your query failed"
-    >
+    <VComponent :steps="steps">
       <template #default>
-        <p>Your team has made changes to your company profile since you last logged in.</p>
+        <p class="h-full w-full text-primary-600">step one</p>
       </template>
-      <template #actions>
-        <VButton
-          text="Dismiss"
-          size="xs"
-          variant="plain"
-        />
-        <VButton
-          text="Retry"
-          size="xs"
-          variant="base"
-          color="primary"
-        />
+      <template #step-one>
+        <p class="h-full w-full">step one</p>
+      </template>
+      <template #step-two>
+        <p class="h-full w-full">step two</p>
+      </template>
+      <template #step-three>
+        <p class="h-full w-full">step three</p>
       </template>
     </VComponent>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useDark, useToggle } from '@vueuse/core';
 
-import VButton from '@/components/VButton.vue';
-import VComponent from '@/components/VModal.vue';
+import VComponent from '@/components/VStepper.vue';
 
-const showNotification = ref(true);
+const steps = [
+  {
+    identifier: 'one',
+  },
+  {
+    identifier: 'two',
+  },
+  {
+    identifier: 'three',
+  },
+];
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 
