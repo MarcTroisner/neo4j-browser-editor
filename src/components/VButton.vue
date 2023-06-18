@@ -1,48 +1,44 @@
 <template>
   <button
-    :type="type"
+    class="v-button"
+    :class="[buttonSize, buttonVariant]"
     :disabled="disabled || loading"
-    :class="[
-      {
-        'pointer-events-none opacity-60': disabled,
-        'pointer-events-none': loading,
-      },
-      setButtonIconType,
-      setButtonSize,
-      setButtonColorAndVariant,
-    ]"
+    :type="type"
   >
     <div
-      :class="[
-        'flex items-center gap-1',
-        {
-          'flex-row': !stacked,
-          'flex-col': stacked,
-          invisible: loading,
-        },
-      ]"
+      v-if="icon"
+      class="flex items-center"
+      :class="{
+        invisible: loading,
+      }"
     >
-      <!-- Prepend icon -->
       <OhVueIcon
-        v-if="prependIcon && icon === undefined"
-        :name="prependIcon"
-        :scale="setIconSize"
-      />
-      <!-- Main content -->
-      <p v-if="icon === undefined">{{ text }}</p>
-      <OhVueIcon
-        v-else
-        :name="icon"
-        :scale="setIconSize"
-      />
-      <!-- Append icon -->
-      <OhVueIcon
-        v-if="appendIcon && icon === undefined"
-        :name="appendIcon"
-        :scale="setIconSize"
+        :name="props.icon"
+        :scale="iconSize"
       />
     </div>
-    <!-- Loading state -->
+    <div
+      v-else
+      class="flex items-center gap-1"
+      :class="{
+        'flex-col': stacked,
+        invisible: loading,
+      }"
+    >
+      <OhVueIcon
+        v-if="props.prependIcon"
+        :name="props.prependIcon"
+        :scale="iconSize"
+      />
+      <p>
+        {{ text }}
+      </p>
+      <OhVueIcon
+        v-if="props.appendIcon"
+        :name="props.appendIcon"
+        :scale="iconSize"
+      />
+    </div>
     <div
       v-if="loading"
       class="absolute left-1/2 top-1/2 z-10 flex h-4 w-4 -translate-x-1/2 -translate-y-1/2 items-center"
@@ -50,7 +46,7 @@
       <OhVueIcon
         class="animate-spin"
         name="ri-loader-5-line"
-        :scale="setIconSize"
+        :scale="iconSize"
       />
     </div>
   </button>
@@ -60,11 +56,11 @@
 import { computed } from 'vue';
 import { OhVueIcon } from 'oh-vue-icons';
 
-export interface IProps {
-  color?: 'base' | 'primary' | 'error' | 'success' | 'warning';
+export interface IButtonProps {
+  intent?: 'base' | 'danger' | 'success' | 'warning' | 'info';
+  variant?: 'base' | 'outline' | 'ghost' | 'plain';
   type?: 'submit' | 'reset' | 'button';
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
-  variant?: 'base' | 'outline' | 'tonal' | 'plain';
   prependIcon?: string;
   appendIcon?: string;
   icon?: string;
@@ -74,16 +70,8 @@ export interface IProps {
   text?: string;
 }
 
-const BUTTON_SIZES = {
-  xs: 0.8,
-  sm: 0.9,
-  base: 1,
-  lg: 1.1,
-  xl: 1.2,
-};
-
-const props = withDefaults(defineProps<IProps>(), {
-  color: 'base',
+const props = withDefaults(defineProps<IButtonProps>(), {
+  intent: 'base',
   type: 'button',
   size: 'base',
   variant: 'base',
@@ -96,167 +84,179 @@ const props = withDefaults(defineProps<IProps>(), {
   text: undefined,
 });
 
-const setButtonSize = computed<string>(() => {
-  if (props.icon) return `v-button--icon-${props.size}`;
-  return `v-button--${props.size}`;
+const iconSize = computed(() => {
+  const scale = {
+    xs: 0.8,
+    sm: 0.9,
+    base: 1,
+    lg: 1.1,
+    xl: 1.2,
+  };
+
+  return scale[props.size];
 });
-const setButtonColorAndVariant = computed<string>(() => `v-button--${props.color}-${props.variant}`);
-const setButtonIconType = computed<string>(() => {
-  if (props.icon) return 'v-button--icon';
-  return 'v-button';
+const buttonSize = computed(() => {
+  const buttonType = props.icon === undefined ? 'base' : 'icon';
+  let sizeClass = `v-button--${buttonType}--size-${props.size}`;
+
+  if (buttonType === 'icon') sizeClass = `${sizeClass} v-button--icon`;
+
+  return sizeClass;
 });
-const setIconSize = computed<number>(() => BUTTON_SIZES[props.size]);
+const buttonVariant = computed(() => `v-button--${props.intent}--${props.variant}`);
 </script>
 
 <style scoped>
 .v-button {
-  @apply relative w-fit rounded-lg border border-solid font-medium uppercase transition-colors focus-visible:ring;
+  @apply relative w-fit rounded-lg border border-solid text-center font-medium uppercase transition-colors;
 }
 
 .v-button--icon {
-  @apply relative w-fit rounded-full border border-solid transition-colors focus-visible:ring;
+  @apply rounded-full;
 }
 
-/* Button sizes */
-.v-button--xs {
-  @apply p-4 px-3 py-1.5 text-xs;
+/* Sizes */
+.v-button--base--size-xs {
+  @apply px-3 py-1.5;
 }
 
-.v-button--sm {
-  @apply px-4 py-2 text-sm;
-}
-
-.v-button--base {
-  @apply px-5 py-2.5 text-sm;
-}
-
-.v-button--lg {
-  @apply px-6 py-3 text-base;
-}
-
-.v-button--xl {
-  @apply px-8 py-4 text-lg;
-}
-
-.v-button--icon-xs {
+.v-button--icon--size-xs {
   @apply p-1.5;
 }
 
-.v-button--icon-sm {
+.v-button--base--size-sm {
+  @apply px-4 py-2;
+}
+
+.v-button--icon--size-sm {
   @apply p-2;
 }
 
-.v-button--icon-base {
+.v-button--base--size-base {
+  @apply px-5 py-2.5;
+}
+
+.v-button--icon--size-base {
   @apply p-2.5;
 }
 
-.v-button--icon-lg {
+.v-button--base--size-lg {
+  @apply px-6 py-3;
+}
+
+.v-button--icon--size-lg {
   @apply p-3;
 }
 
-.v-button--icon-xl {
+.v-button--base--size-lg {
+  @apply px-8 py-4;
+}
+
+.v-button--icon--size-lg {
   @apply p-4;
 }
 
-/* Button primary variants */
-.v-button--primary-base {
-  @apply border-primary-600 bg-primary-600 text-white hover:border-primary-700 hover:bg-primary-700 focus-visible:ring-primary-200;
+/* Base variants */
+.v-button--base--base {
+  @apply border-base-700 bg-base-700 text-white hover:border-base-800 hover:bg-base-800 focus-visible:ring focus-visible:ring-base-200
+  dark:hover:border-base-600 dark:hover:bg-base-600 dark:focus-visible:ring-base-800;
 }
 
-.v-button--primary-outline {
-  @apply border-primary-600 text-primary-600 hover:bg-primary-50 focus-visible:ring-primary-200
-  dark:hover:bg-primary-1000 dark:focus-visible:ring-primary-900;
+.v-button--danger--base {
+  @apply border-danger-600 bg-danger-600 text-white hover:border-danger-500 hover:bg-danger-500 focus-visible:ring focus-visible:ring-danger-200
+  dark:focus-visible:ring-danger-950;
 }
 
-.v-button--primary-tonal {
-  @apply border-primary-100 bg-primary-100 text-primary-600 hover:border-primary-200 hover:bg-primary-200 focus-visible:ring-primary-200
-  dark:border-primary-950 dark:bg-primary-950 dark:hover:bg-primary-900 dark:focus-visible:ring-primary-800;
+.v-button--success--base {
+  @apply border-success-600 bg-success-600 text-white hover:border-success-500 hover:bg-success-500 focus-visible:ring focus-visible:ring-success-200
+  dark:focus-visible:ring-success-950;
 }
 
-.v-button--primary-plain {
-  @apply border-transparent text-primary-400 ring-transparent hover:text-primary-600 focus-visible:text-primary-600
-  dark:text-primary-800 dark:hover:text-primary-600 dark:focus-visible:text-primary-600;
+.v-button--warning--base {
+  @apply border-warning-500 bg-warning-500 text-white hover:border-warning-400 hover:bg-warning-400 focus-visible:ring focus-visible:ring-warning-200
+  dark:focus-visible:ring-warning-950;
 }
 
-/* Button base variants */
-.v-button--base-base {
-  @apply border-base-500 bg-base-500 text-white hover:border-base-600 hover:bg-base-600 focus-visible:ring-base-200
-  dark:border-base-700 dark:bg-base-700 dark:text-base-600 dark:hover:border-base-600 dark:hover:bg-base-600
-  dark:focus-visible:ring-base-800;
+.v-button--info--base {
+  @apply border-info-600 bg-info-600 text-white hover:border-info-500 hover:bg-info-500 focus-visible:ring focus-visible:ring-info-200
+  dark:focus-visible:ring-info-950;
 }
 
-.v-button--base-outline {
-  @apply border-base-500 text-base-500 hover:bg-base-150 focus-visible:ring-base-200
-   dark:hover:bg-base-850 dark:focus-visible:ring-base-800;
+/* Outline variants */
+.v-button--base--outline {
+  @apply border-base-500 bg-none text-base-700 hover:bg-base-100 focus-visible:ring focus-visible:ring-base-200
+  dark:border-base-400 dark:text-base-200 dark:hover:bg-base-800 dark:focus-visible:ring-base-800;
 }
 
-.v-button--base-tonal {
-  @apply border-base-100 bg-base-100 text-base-500 hover:border-base-200 hover:bg-base-200 focus-visible:ring-base-200
-  dark:border-base-850 dark:bg-base-850 dark:hover:bg-base-800 dark:focus-visible:ring-base-800;
+.v-button--danger--outline {
+  @apply border-danger-400 bg-none text-danger-600 hover:bg-danger-50 focus-visible:ring focus-visible:ring-danger-200
+  dark:border-danger-800 dark:hover:bg-danger-950 dark:focus-visible:ring-danger-950;
 }
 
-.v-button--base-plain {
-  @apply border-transparent text-base-400 ring-transparent hover:text-base-500 focus-visible:text-base-600
-  dark:text-base-600 dark:hover:text-base-500 dark:focus-visible:text-base-500;
+.v-button--success--outline {
+  @apply border-success-400 bg-none text-success-600 hover:bg-success-50 focus-visible:ring focus-visible:ring-success-200
+  dark:border-success-800 dark:hover:bg-success-950 dark:focus-visible:ring-success-950;
 }
 
-/* Button error variants */
-.v-button--error-base {
-  @apply border-error-600 bg-error-600 text-white hover:border-error-700 hover:bg-error-700 focus-visible:ring-error-200;
+.v-button--warning--outline {
+  @apply border-warning-400 bg-none text-warning-600 hover:bg-warning-50 focus-visible:ring focus-visible:ring-warning-200
+  dark:border-warning-800 dark:hover:bg-warning-950 dark:focus-visible:ring-warning-950;
 }
 
-.v-button--error-outline {
-  @apply border-error-600 text-error-600 hover:bg-error-50 focus-visible:ring-error-200
-  dark:hover:bg-error-1000 dark:focus-visible:ring-error-900;
+.v-button--info--outline {
+  @apply border-info-400 bg-none text-info-600 hover:bg-info-50 focus-visible:ring focus-visible:ring-info-200
+  dark:border-info-800 dark:hover:bg-info-950 dark:focus-visible:ring-info-950;
 }
 
-.v-button--error-tonal {
-  @apply border-error-100 bg-error-100 text-error-600 hover:border-error-200 hover:bg-error-200 focus-visible:ring-error-200
-  dark:border-error-950 dark:bg-error-950 dark:hover:bg-error-900 dark:focus-visible:ring-error-800;
+/* Ghost variants */
+.v-button--base--ghost {
+  @apply border-base-200 bg-base-200 text-black hover:border-base-300 hover:bg-base-300 focus-visible:ring focus-visible:ring-base-300
+  dark:border-base-800 dark:bg-base-800 dark:text-white dark:hover:border-base-700 dark:hover:bg-base-700 dark:focus-visible:ring-base-700;
 }
 
-.v-button--error-plain {
-  @apply border-transparent text-error-400 ring-transparent hover:text-error-600 focus-visible:text-error-600
-  dark:text-error-800 dark:hover:text-error-600 dark:focus-visible:text-error-600;
+.v-button--danger--ghost {
+  @apply border-danger-100 bg-danger-100 text-danger-600 hover:border-danger-200 hover:bg-danger-200 focus-visible:ring focus-visible:ring-danger-200
+  dark:border-danger-950 dark:bg-danger-950 dark:hover:border-danger-900 dark:hover:bg-danger-900 dark:focus-visible:ring-danger-900;
 }
 
-/* Button warning variants */
-.v-button--warning-base {
-  @apply border-warning-600 bg-warning-600 text-white hover:border-warning-700 hover:bg-warning-700 focus-visible:ring-warning-200;
+.v-button--success--ghost {
+  @apply border-success-100 bg-success-100 text-success-600 hover:border-success-200 hover:bg-success-200 focus-visible:ring focus-visible:ring-success-200
+  dark:border-success-950 dark:bg-success-950 dark:hover:border-success-900 dark:hover:bg-success-900 dark:focus-visible:ring-success-900;
 }
 
-.v-button--warning-outline {
-  @apply border-warning-600 text-warning-600 hover:bg-warning-50 focus-visible:ring-warning-200
-  dark:hover:bg-warning-1000 dark:focus-visible:ring-warning-900;
+.v-button--warning--ghost {
+  @apply border-warning-100 bg-warning-100 text-warning-600 hover:border-warning-200 hover:bg-warning-200 focus-visible:ring focus-visible:ring-warning-200
+  dark:border-warning-950 dark:bg-warning-950 dark:hover:border-warning-900 dark:hover:bg-warning-900 dark:focus-visible:ring-warning-900;
 }
 
-.v-button--warning-tonal {
-  @apply border-warning-100 bg-warning-100 text-warning-600 hover:border-warning-200 hover:bg-warning-200 focus-visible:ring-warning-200
-  dark:border-warning-950 dark:bg-warning-950 dark:hover:bg-warning-900 dark:focus-visible:ring-warning-800;
+.v-button--info--ghost {
+  @apply border-info-100 bg-info-100 text-info-600 hover:border-info-200 hover:bg-info-200 focus-visible:ring focus-visible:ring-info-200
+  dark:border-info-950 dark:bg-info-950 dark:hover:border-info-900 dark:hover:bg-info-900 dark:focus-visible:ring-info-900;
 }
 
-.v-button--warning-plain {
-  @apply border-transparent text-warning-400 ring-transparent hover:text-warning-600 focus-visible:text-warning-600
-  dark:text-warning-800 dark:hover:text-warning-600 dark:focus-visible:text-warning-600;
+/* Plain variants */
+.v-button--base--plain {
+  @apply border-none bg-none text-black focus-visible:ring focus-visible:ring-base-300
+  dark:text-white dark:hover:border-base-700 dark:hover:bg-base-700 dark:focus-visible:ring-base-700;
 }
 
-/* Button success variants */
-.v-button--success-base {
-  @apply border-success-600 bg-success-600 text-white hover:border-success-700 hover:bg-success-700 focus-visible:ring-success-200;
+.v-button--danger--plain {
+  @apply border-none bg-none text-danger-600 focus-visible:ring focus-visible:ring-danger-200
+  dark:focus-visible:ring-danger-900;
 }
 
-.v-button--success-outline {
-  @apply border-success-600 text-success-600 hover:bg-success-50 focus-visible:ring-success-200
-  dark:hover:bg-success-1000 dark:focus-visible:ring-success-900;
+.v-button--success--plain {
+  @apply border-none bg-none text-success-600 focus-visible:ring focus-visible:ring-success-200
+  dark:focus-visible:ring-success-900;
 }
 
-.v-button--success-tonal {
-  @apply border-success-100 bg-success-100 text-success-600 hover:border-success-200 hover:bg-success-200 focus-visible:ring-success-200
-  dark:border-success-950 dark:bg-success-950 dark:hover:bg-success-900 dark:focus-visible:ring-success-800;
+.v-button--warning--plain {
+  @apply border-none bg-none text-warning-600 focus-visible:ring focus-visible:ring-warning-200
+  dark:focus-visible:ring-warning-900;
 }
 
-.v-button--success-plain {
-  @apply border-transparent text-success-400 ring-transparent hover:text-success-600 focus-visible:text-success-600
-  dark:text-success-800 dark:hover:text-success-600 dark:focus-visible:text-success-600;
+.v-button--info--plain {
+  @apply border-none bg-none text-info-600 focus-visible:ring focus-visible:ring-info-200
+  dark:focus-visible:ring-info-900;
 }
 </style>
