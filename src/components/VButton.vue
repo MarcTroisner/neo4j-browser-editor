@@ -108,7 +108,7 @@ const buttonVariant = computed(() => `v-button--${props.intent}--${props.variant
 
 <style scoped>
 .v-button {
-  @apply relative w-fit rounded-lg border border-solid text-center font-medium uppercase transition-colors;
+  @apply relative w-fit rounded-lg border border-solid text-center font-medium transition-colors;
 }
 
 .v-button--icon {
@@ -236,27 +236,27 @@ const buttonVariant = computed(() => `v-button--${props.intent}--${props.variant
 
 /* Plain variants */
 .v-button--base--plain {
-  @apply border-none bg-none text-black focus-visible:ring focus-visible:ring-base-300
+  @apply border-none bg-none p-0 text-black focus-visible:ring focus-visible:ring-base-300
   dark:text-white dark:hover:border-base-700 dark:hover:bg-base-700 dark:focus-visible:ring-base-700;
 }
 
 .v-button--danger--plain {
-  @apply border-none bg-none text-danger-600 focus-visible:ring focus-visible:ring-danger-200
+  @apply border-none bg-none p-0 text-danger-600 focus-visible:ring focus-visible:ring-danger-200
   dark:focus-visible:ring-danger-900;
 }
 
 .v-button--success--plain {
-  @apply border-none bg-none text-success-600 focus-visible:ring focus-visible:ring-success-200
+  @apply border-none bg-none p-0 text-success-600 focus-visible:ring focus-visible:ring-success-200
   dark:focus-visible:ring-success-900;
 }
 
 .v-button--warning--plain {
-  @apply border-none bg-none text-warning-600 focus-visible:ring focus-visible:ring-warning-200
+  @apply border-none bg-none p-0 text-warning-600 focus-visible:ring focus-visible:ring-warning-200
   dark:focus-visible:ring-warning-900;
 }
 
 .v-button--info--plain {
-  @apply border-none bg-none text-info-600 focus-visible:ring focus-visible:ring-info-200
+  @apply border-none bg-none p-0 text-info-600 focus-visible:ring focus-visible:ring-info-200
   dark:focus-visible:ring-info-900;
 }
 </style>
