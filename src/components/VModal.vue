@@ -25,7 +25,7 @@
                 class="h-6 w-6"
               />
             </div>
-            <div class="md: flex-1 text-center sm:text-start">
+            <div class="flex-1 text-center sm:text-start">
               <h3 class="text-lg font-medium text-black dark:text-white">{{ title }}</h3>
               <div class="mt-2 text-sm text-base-800 dark:text-base-100">
                 <slot name="default" />

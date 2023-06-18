@@ -17,5 +17,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'no-underscore-dangle': 'off',
     'prettier/prettier': 'error',
+    'vuejs-accessibility/click-events-have-key-events': 'off',
   },
 };

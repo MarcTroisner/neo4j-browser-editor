@@ -6,7 +6,7 @@
     />
     <VComponent
       v-model="showNotification"
-      intent="warning"
+      intent="info"
       title="Your query failed"
     >
       <template #default>
@@ -21,7 +21,7 @@
         <VButton
           text="Retry"
           size="xs"
-          variant="plain"
+          variant="base"
           color="primary"
         />
       </template>
@@ -34,7 +34,7 @@ import { ref } from 'vue';
 import { useDark, useToggle } from '@vueuse/core';
 
 import VButton from '@/components/VButton.vue';
-import VComponent from '@/components/VNotification.vue';
+import VComponent from '@/components/VModal.vue';
 
 const showNotification = ref(true);
 const isDark = useDark();
