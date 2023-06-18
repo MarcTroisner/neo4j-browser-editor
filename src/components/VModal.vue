@@ -5,7 +5,7 @@
       v-show="props.modelValue"
       class="fixed inset-0 z-50 flex items-center justify-center px-4"
     >
-      <div class="mx-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-xl sm:max-w-xl">
+      <div class="mx-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-xl dark:bg-base-900 sm:max-w-xl">
         <div
           ref="modal"
           class="relative p-6"
@@ -14,10 +14,10 @@
             <div
               class="flex h-10 w-10 items-center justify-center rounded-full"
               :class="{
-                'bg-info-100 text-info-500': props.intent === 'info',
-                'bg-danger-100 text-danger-500': props.intent === 'danger',
-                'bg-warning-100 text-warning-500': props.intent === 'warning',
-                'bg-success-100 text-success-500': props.intent === 'success',
+                'bg-info-100 text-info-500 dark:bg-info-950': props.intent === 'info',
+                'bg-danger-100 text-danger-500 dark:bg-danger-950': props.intent === 'danger',
+                'bg-warning-100 text-warning-500 dark:bg-warning-950': props.intent === 'warning',
+                'bg-success-100 text-success-500 dark:bg-success-950': props.intent === 'success',
               }"
             >
               <OhVueIcon
@@ -26,8 +26,8 @@
               />
             </div>
             <div class="md: flex-1 text-center sm:text-start">
-              <h3 class="text-secondary-900 text-lg font-medium">Blog post published</h3>
-              <div class="text-secondary-500 mt-2 text-sm">
+              <h3 class="text-lg font-medium text-black dark:text-white">{{ title }}</h3>
+              <div class="mt-2 text-sm text-base-800 dark:text-base-100">
                 <slot name="default" />
               </div>
             </div>
@@ -43,7 +43,7 @@
     <div
       v-if="props.modelValue || eager"
       v-show="props.modelValue"
-      class="fixed inset-0 bg-black/50"
+      class="fixed inset-0 bg-black/50 dark:bg-white/20"
       @click="$emit('update:modelValue', !props.modelValue)"
     />
   </Transition>
