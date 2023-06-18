@@ -57,7 +57,7 @@ import { computed } from 'vue';
 import { OhVueIcon } from 'oh-vue-icons';
 
 export interface IButtonProps {
-  intent?: 'base' | 'danger' | 'success' | 'warning' | 'info';
+  color?: 'base' | 'primary' | 'danger' | 'success' | 'warning' | 'info';
   variant?: 'base' | 'outline' | 'ghost' | 'plain';
   type?: 'submit' | 'reset' | 'button';
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
@@ -71,7 +71,7 @@ export interface IButtonProps {
 }
 
 const props = withDefaults(defineProps<IButtonProps>(), {
-  intent: 'base',
+  color: 'base',
   type: 'button',
   size: 'base',
   variant: 'base',
@@ -103,7 +103,7 @@ const buttonSize = computed(() => {
 
   return sizeClass;
 });
-const buttonVariant = computed(() => `v-button--${props.intent}--${props.variant}`);
+const buttonVariant = computed(() => `v-button--${props.color}--${props.variant}`);
 </script>
 
 <style scoped>
@@ -162,6 +162,11 @@ const buttonVariant = computed(() => `v-button--${props.intent}--${props.variant
   dark:hover:border-base-600 dark:hover:bg-base-600 dark:focus-visible:ring-base-800;
 }
 
+.v-button--primary--base {
+  @apply border-primary-600 bg-primary-600 text-white hover:border-primary-500 hover:bg-primary-500 focus-visible:ring focus-visible:ring-primary-200
+  dark:focus-visible:ring-primary-950;
+}
+
 .v-button--danger--base {
   @apply border-danger-600 bg-danger-600 text-white hover:border-danger-500 hover:bg-danger-500 focus-visible:ring focus-visible:ring-danger-200
   dark:focus-visible:ring-danger-950;
@@ -186,6 +191,11 @@ const buttonVariant = computed(() => `v-button--${props.intent}--${props.variant
 .v-button--base--outline {
   @apply border-base-500 bg-none text-base-700 hover:bg-base-100 focus-visible:ring focus-visible:ring-base-200
   dark:border-base-400 dark:text-base-200 dark:hover:bg-base-800 dark:focus-visible:ring-base-800;
+}
+
+.v-button--primary--outline {
+  @apply border-primary-400 bg-none text-primary-600 hover:bg-primary-50 focus-visible:ring focus-visible:ring-primary-200
+  dark:border-primary-800 dark:hover:bg-primary-950 dark:focus-visible:ring-primary-950;
 }
 
 .v-button--danger--outline {
@@ -214,6 +224,11 @@ const buttonVariant = computed(() => `v-button--${props.intent}--${props.variant
   dark:border-base-800 dark:bg-base-800 dark:text-white dark:hover:border-base-700 dark:hover:bg-base-700 dark:focus-visible:ring-base-700;
 }
 
+.v-button--primary--ghost {
+  @apply border-primary-100 bg-primary-100 text-primary-600 hover:border-primary-200 hover:bg-primary-200 focus-visible:ring focus-visible:ring-primary-200
+  dark:border-primary-950 dark:bg-primary-950 dark:hover:border-primary-900 dark:hover:bg-primary-900 dark:focus-visible:ring-primary-900;
+}
+
 .v-button--danger--ghost {
   @apply border-danger-100 bg-danger-100 text-danger-600 hover:border-danger-200 hover:bg-danger-200 focus-visible:ring focus-visible:ring-danger-200
   dark:border-danger-950 dark:bg-danger-950 dark:hover:border-danger-900 dark:hover:bg-danger-900 dark:focus-visible:ring-danger-900;
@@ -236,27 +251,32 @@ const buttonVariant = computed(() => `v-button--${props.intent}--${props.variant
 
 /* Plain variants */
 .v-button--base--plain {
-  @apply border-none bg-none p-0 text-black focus-visible:ring focus-visible:ring-base-300
-  dark:text-white dark:hover:border-base-700 dark:hover:bg-base-700 dark:focus-visible:ring-base-700;
+  @apply border-none bg-none p-0 text-base-600 hover:text-black focus-visible:text-black
+  dark:text-base-400 dark:hover:text-white dark:focus-visible:text-white;
+}
+
+.v-button--primary--plain {
+  @apply border-none bg-none p-0 text-primary-500 hover:text-primary-600 focus-visible:text-primary-600
+  dark:text-primary-700 dark:hover:text-primary-600 dark:focus-visible:text-primary-600;
 }
 
 .v-button--danger--plain {
-  @apply border-none bg-none p-0 text-danger-600 focus-visible:ring focus-visible:ring-danger-200
-  dark:focus-visible:ring-danger-900;
+  @apply border-none bg-none p-0 text-danger-500 hover:text-danger-600 focus-visible:text-danger-600
+  dark:text-danger-700 dark:hover:text-danger-600 dark:focus-visible:text-danger-600;
 }
 
 .v-button--success--plain {
-  @apply border-none bg-none p-0 text-success-600 focus-visible:ring focus-visible:ring-success-200
-  dark:focus-visible:ring-success-900;
+  @apply border-none bg-none p-0 text-success-500 hover:text-success-600 focus-visible:text-success-600
+  dark:text-success-700 dark:hover:text-success-600 dark:focus-visible:text-success-600;
 }
 
 .v-button--warning--plain {
-  @apply border-none bg-none p-0 text-warning-600 focus-visible:ring focus-visible:ring-warning-200
-  dark:focus-visible:ring-warning-900;
+  @apply border-none bg-none p-0 text-warning-400 hover:text-warning-500 focus-visible:text-warning-500
+  dark:text-warning-700 dark:hover:text-warning-600 dark:focus-visible:text-warning-600;
 }
 
 .v-button--info--plain {
-  @apply border-none bg-none p-0 text-info-600 focus-visible:ring focus-visible:ring-info-200
-  dark:focus-visible:ring-info-900;
+  @apply border-none bg-none p-0 text-info-500 hover:text-info-600 focus-visible:text-info-600
+  dark:text-info-700 dark:hover:text-info-600 dark:focus-visible:text-info-600;
 }
 </style>
