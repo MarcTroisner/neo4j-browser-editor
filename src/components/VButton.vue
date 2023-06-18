@@ -1,7 +1,7 @@
 <template>
   <button
     class="v-button"
-    :class="[buttonSize, buttonVariant]"
+    :class="[buttonSize, buttonVariant, { 'opacity-60': disabled }]"
     :disabled="disabled || loading"
     :type="type"
   >
