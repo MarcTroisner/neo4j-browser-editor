@@ -3,7 +3,7 @@
     <div
       v-if="props.modelValue || eager"
       v-show="props.modelValue"
-      class="border-secondary-50 relative mx-auto max-w-[400px] rounded-xl border bg-white p-4 text-sm shadow-lg dark:bg-base-950"
+      class="border-secondary-50 relative mx-auto max-w-[400px] rounded-xl border bg-white p-4 text-sm shadow-lg dark:bg-base-900"
     >
       <div class="absolute right-4 top-4 ml-auto">
         <VButton
