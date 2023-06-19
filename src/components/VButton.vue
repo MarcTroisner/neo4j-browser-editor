@@ -282,32 +282,32 @@ const buttonVariant = computed(() => `v-button--${props.color}--${props.variant}
 
 /* Text variants */
 .v-button--base--text {
-  @apply border-none bg-none p-0 text-black
-  dark:text-white;
+  @apply border-none bg-none p-0 text-base-600 hover:text-black
+  dark:text-base-400 dark:hover:text-white;
 }
 
 .v-button--primary--text {
-  @apply border-none bg-none p-0 text-primary-600
-  dark:text-primary-600;
+  @apply border-none bg-none p-0 text-primary-500 hover:text-primary-600
+  dark:text-primary-700 dark:hover:text-primary-600;
 }
 
 .v-button--danger--text {
-  @apply border-none bg-none p-0 text-danger-600
-  dark:text-danger-600;
+  @apply border-none bg-none p-0 text-danger-500 hover:text-danger-600
+  dark:text-danger-700 dark:hover:text-danger-600;
 }
 
 .v-button--success--text {
-  @apply border-none bg-none p-0 text-success-600
-  dark:text-success-600;
+  @apply border-none bg-none p-0 text-success-500 hover:text-success-600
+  dark:text-success-700 dark:hover:text-success-600;
 }
 
 .v-button--warning--text {
-  @apply border-none bg-none p-0 text-warning-500
-  dark:text-warning-600;
+  @apply border-none bg-none p-0 text-warning-400 hover:text-warning-500
+  dark:text-warning-700 dark:hover:text-warning-600;
 }
 
 .v-button--info--text {
-  @apply border-none bg-none p-0 text-info-600
-  dark:text-info-600;
+  @apply border-none bg-none p-0 text-info-500 hover:text-info-600
+  dark:text-info-700 dark:hover:text-info-600;
 }
 </style>
